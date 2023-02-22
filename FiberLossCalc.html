@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tarun's Logic</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+			padding: 0;
+			background-color: #f2f2f2;
+		}
+		label {
+			font-weight: bold;
+		}
+		select, input[type="number"] {
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 16px;
+			margin-bottom: 10px;
+		}
+		button {
+			padding: 10px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+			margin-left:25px;
+		}
+		button:hover {
+			background-color: #3e8e41;
+		}
+		input[readonly] {
+			background-color: #ddd;
+		}
+		
+		@media (min-width: 768px) {
+		/* Desktop Layout */
+		label {
+		display: inline-block;
+		width: 150px;
+		text-align: right;
+		margin-right: 10px;
+		}
+		select, input[type="number"] {
+		width: 200px;
+		margin-bottom: 0;
+		}
+		button {
+		width: auto;
+		margin-left:0;
+		}
+		.container {
+		display: flex;
+		align-items: center;
+		}
+		.container > div {
+		margin-right: 20px;
+		}
+	}
+	</style>
+</head>
+<body>
+	<h1>Tarun's Fiber Splitter Calculator</h1>
+	<p>This calculator allows you to calculate the results of splitting a power signal using different splitters.</p>
+	<label for="input1">Input Power:</label>
+	<input type="number" id="input1" name="input1" placeholder="Enter input power"><br><br>
+	<label for="dropdown1">Select splitter:</label>
+	<select id="dropdown1" name="dropdown1">
+		<option value="1">Splitter 99/1</option>
+		<option value="2">Splitter 90/10</option>
+		<option value="3">Splitter 85/15</option>
+		<option value="4">Splitter 80/20</option>
+		<option value="5">Splitter 70/30</option>
+		<option value="6">Splitter 60/40</option>
+		<option value="7">Splitter 50/50</option>
+		<option value="8">Splitter 1:4</option>
+		<option value="9">Splitter 1:8</option>
+		<option value="10">Splitter 1:16</option>
+	</select><br><br>
+	
+	<button onclick="calculate()">Calculate</button><br><br>
+	
+	<label for="add-result">OUTPUT 1:</label>
+	<input type="number" id="add-result" name="add-result" readonly><br><br>
+	
+	<label for="mult-result">OUTPUT 2</label>
+	<input type="number" id="mult-result" name="mult-result" readonly>
+	<script>
+		function calculate() {
+			// Get the input and dropdown values
+			const input1 = Number(document.getElementById("input1").value);
+			const dropdown1 = Number(document.getElementById("dropdown1").value);
+
+			// Define splitter values as an object for better readability
+			const splitters = {
+				1: [20, 0.24],
+				2: [10, 0.66],
+				3: [8.4, 0.91],
+				4: [7.8, 1.2],
+				5: [5.6, 1.6],
+				6: [4, 2.3],
+				7: [3.2, 3.2],
+				8: [6.2, 6.2],
+				9: [10, 10],
+				10: [12, 12]
+			};
+
+			// Calculate the results
+			const [addResult, multResult] = splitters[dropdown1];
+			const finalAddResult = input1 - addResult;
+			const finalMultResult = input1 - multResult;
+
+			// Set the results in the respective result boxes
+			document.getElementById("add-result").value = finalAddResult;
+			document.getElementById("mult-result").value = finalMultResult;
+		}
+	</script>
+</body>
+</html>
