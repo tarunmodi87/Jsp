@@ -5,6 +5,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script type="text/javascript">
+		function getLocationA() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					document.getElementById("lat1").value = position.coords.latitude;
+					document.getElementById("lon1").value = position.coords.longitude;
+				});
+			} else {
+				alert("Geolocation is not supported by this browser.");
+			}
+		}
+
+		function getLocationB() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					document.getElementById("lat2").value = position.coords.latitude;
+					document.getElementById("lon2").value = position.coords.longitude;
+				});
+			} else {
+				alert("Geolocation is not supported by this browser.");
+			}
+		}
+
 		function getDistance() {
 			var lat1 = document.getElementById("lat1").value;
 			var lon1 = document.getElementById("lon1").value;
@@ -26,18 +48,20 @@
 </head>
 <body>
 	<h1>Calculate Distance Between Two Points</h1>
-	<p>Enter the latitude and longitude of two points and click the button to calculate the distance between them.</p>
+	<p>Enter the latitude and longitude of two points or click the buttons to get your current location.</p>
 	<label for="lat1">Latitude of Point A:</label>
 	<input type="number" id="lat1" step="any">
 	<br>
 	<label for="lon1">Longitude of Point A:</label>
 	<input type="number" id="lon1" step="any">
+	<button onclick="getLocationA()">Get Location A</button>
 	<br>
 	<label for="lat2">Latitude of Point B:</label>
 	<input type="number" id="lat2" step="any">
 	<br>
 	<label for="lon2">Longitude of Point B:</label>
 	<input type="number" id="lon2" step="any">
+	<button onclick="getLocationB()">Get Location B</button>
 	<br>
 	<button onclick="getDistance()">Calculate Distance</button>
 	<p id="result"></p>
