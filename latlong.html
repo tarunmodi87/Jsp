@@ -1,28 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Get Current Location</title>
-</head>
-<body>
-  <button id="getLocationBtn">Get Current Location</button>
-  <br>
-  <label id="locationLabel"></label>
-  <script>
-    var getLocationBtn = document.getElementById("getLocationBtn");
-    var locationLabel = document.getElementById("locationLabel");
-
-    getLocationBtn.addEventListener("click", function() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var latitude = position.coords.latitude;
-          var longitude = position.coords.longitude;
-          locationLabel.innerHTML = "Latitude: " + latitude + " Longitude: " + longitude;
-        });
-      } else {
-        locationLabel.innerHTML = "Geolocation is not supported by this browser.";
-      }
+getLocationBtn.addEventListener("click", function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      locationLabel.innerHTML = "Latitude: " + latitude + " Longitude: " + longitude;
+      calculateDistance(latitude, longitude);
     });
-  </script>
-</body>
-</html>
+  } else {
+    locationLabel.innerHTML = "Geolocation is not supported by this browser.";
+  }
+});
+
+function calculateDistance(latitude, longitude) {
+  var pointALatitude = parseFloat(pointALatitudeInput.value);
+  var pointALongitude = parseFloat(pointALongitudeInput.value);
+  var pointBLatitude = parseFloat(pointBLatitudeInput.value);
+  var pointBLongitude = parseFloat(pointBLongitudeInput.value);
+  if (isNaN(pointALatitude) || isNaN(pointALongitude) || isNaN(pointBLatitude) || isNaN(pointBLongitude)) {
+    distanceLabel.innerHTML = "Please enter valid latitude and longitude for point A and B.";
+  } else {
+    var earthRadius = 6371; // km
+    var dLat = (pointBLatitude - pointALatitude) * Math.PI / 180;
+    var dLon = (pointBLongitude - pointALongitude) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(pointALatitude * Math.PI / 180) * Math.cos(pointBLatitude * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var distance = earthRadius * c;
+    distanceLabel.innerHTML = "Distance between point A and B: " + distance.toFixed(2) + " km";
+  }
+}
