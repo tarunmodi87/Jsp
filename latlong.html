@@ -1,32 +1,45 @@
-getLocationBtn.addEventListener("click", function() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-      locationLabel.innerHTML = "Latitude: " + latitude + " Longitude: " + longitude;
-      calculateDistance(latitude, longitude);
-    });
-  } else {
-    locationLabel.innerHTML = "Geolocation is not supported by this browser.";
-  }
-});
-
-function calculateDistance(latitude, longitude) {
-  var pointALatitude = parseFloat(pointALatitudeInput.value);
-  var pointALongitude = parseFloat(pointALongitudeInput.value);
-  var pointBLatitude = parseFloat(pointBLatitudeInput.value);
-  var pointBLongitude = parseFloat(pointBLongitudeInput.value);
-  if (isNaN(pointALatitude) || isNaN(pointALongitude) || isNaN(pointBLatitude) || isNaN(pointBLongitude)) {
-    distanceLabel.innerHTML = "Please enter valid latitude and longitude for point A and B.";
-  } else {
-    var earthRadius = 6371; // km
-    var dLat = (pointBLatitude - pointALatitude) * Math.PI / 180;
-    var dLon = (pointBLongitude - pointALongitude) * Math.PI / 180;
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(pointALatitude * Math.PI / 180) * Math.cos(pointBLatitude * Math.PI / 180) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var distance = earthRadius * c;
-    distanceLabel.innerHTML = "Distance between point A and B: " + distance.toFixed(2) + " km";
-  }
-}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculate Distance Between Two Points</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+		function getDistance() {
+			var lat1 = document.getElementById("lat1").value;
+			var lon1 = document.getElementById("lon1").value;
+			var lat2 = document.getElementById("lat2").value;
+			var lon2 = document.getElementById("lon2").value;
+			var R = 6371e3; // metres
+			var φ1 = lat1 * Math.PI/180;
+			var φ2 = lat2 * Math.PI/180;
+			var Δφ = (lat2-lat1) * Math.PI/180;
+			var Δλ = (lon2-lon1) * Math.PI/180;
+			var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+			        Math.cos(φ1) * Math.cos(φ2) *
+			        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			var d = R * c;
+			document.getElementById("result").innerHTML = "The distance between the two points is " + d.toFixed(2) + " meters.";
+		}
+	</script>
+</head>
+<body>
+	<h1>Calculate Distance Between Two Points</h1>
+	<p>Enter the latitude and longitude of two points and click the button to calculate the distance between them.</p>
+	<label for="lat1">Latitude of Point A:</label>
+	<input type="number" id="lat1" step="any">
+	<br>
+	<label for="lon1">Longitude of Point A:</label>
+	<input type="number" id="lon1" step="any">
+	<br>
+	<label for="lat2">Latitude of Point B:</label>
+	<input type="number" id="lat2" step="any">
+	<br>
+	<label for="lon2">Longitude of Point B:</label>
+	<input type="number" id="lon2" step="any">
+	<br>
+	<button onclick="getDistance()">Calculate Distance</button>
+	<p id="result"></p>
+</body>
+</html>
